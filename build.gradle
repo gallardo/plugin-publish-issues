@@ -1,0 +1,47 @@
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+    id 'com.gradle.plugin-publish' version '1.0.0-rc-1'
+}
+
+group 'io.github.gallardo'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.groovy:groovy:4.0.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+gradlePlugin {
+    plugins {
+        examplePlugin {
+            id = 'io.github.gallardo.pluginpublishissues.example-plugin'
+            implementationClass = 'io.github.gallardo.pluginpublishissues.ExamplePlugin'
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/gallardo/plugin-publish-issues'
+    vcsUrl = 'https://github.com/gallardo/plugin-publish-issues'
+    description = 'Example Gradle Plugin'
+
+    // XXX: The declaration of this config block causes build to fail with following message:
+    // "> No signature of method: build_7yn3sdxzoh612d16ifdu3v5ra.pluginBundle() is applicable for argument types: (build_7yn3sdxzoh612d16ifdu3v5ra$_run_closure5) values: [build_7yn3sdxzoh612d16ifdu3v5ra$_run_closure5@2b3268eb]"
+    plugins {
+        examplePlugin {
+            // id is captured from java-gradle-plugin configuration
+            displayName = 'Example Gradle plugin'
+            tags = ['test']
+        }
+    }
+}
